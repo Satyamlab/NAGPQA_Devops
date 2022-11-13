@@ -191,6 +191,13 @@
 		</dependency>
 	</dependencies>
 	<build>
+		<plugins>
+			<plugin>
+    				<groupId>org.apache.maven.plugins</groupId>
+    				<artifactId>maven-war-plugin</artifactId>
+    				<version>3.3.1</version>
+			</plugin>
+		</plugins>	
 		<testResources>
 			<testResource>
 				<directory>src/main/webapp</directory>
