@@ -43,14 +43,14 @@ pipeline {
 					id: 'deployer',
 					serverId: 'jenkins-integration',
 					releaseRepo: 'jenkins-integration',
-					snapbatotRepo: 'snapbatot-integration'
+					snapshotRepo: 'snapshot-integration'
 				)
 				rtMavenRun (
 					pom: 'pom.xml',
 					goals: 'clean install',
 					deployerId: 'deployer'
 				)
-				rtPublibatBuildInfo (
+				rtPublishBuildInfo (
 					serverId: 'Artifactory-server'
 				)
 			}
