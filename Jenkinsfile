@@ -7,9 +7,6 @@ pipeline {
         stage('code checkout') {
             steps {
                 code checkout
-		    def a = load('a.groovy')
-    		echo("${env.BUILD_NUMBER}")
-		echo("${a.LOADED_BUILD_NUMBER}")
             }
         }
         stage('code clean') {
