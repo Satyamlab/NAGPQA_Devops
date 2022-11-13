@@ -34,12 +34,25 @@ pipeline {
                   }
             }
         }
-	stage('Build') {
+		stage("Quality Gate"){
+			steps{
+				timeout(time: 1, unit: 'HOURS'){
+					def qg = waitForQualityGate()
+					if(qg.status != 'OK'){
+						waitForQualityGate abortPipeline: TRUE
+					}
+					else{
+						waitForQualityGate abortPipeline: FALSE
+					}
+				}	
+			}
+		}
+		stage('Build') {
             steps {
                 bat "mvn install"
 				}
-	}
-	stage('Upload to Artifactory'){
+		}
+		stage('Upload to Artifactory'){
 			steps{
 				rtMavenDeployer (
 					id: 'deployer',
