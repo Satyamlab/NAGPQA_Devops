@@ -25,22 +25,20 @@ pipeline {
                 echo 'Deploying....'
             }
         }
-        stage('Sonar analysis') {
+        stages('Sonar analysis') {
             steps {
-                    withSonarQubeEnv("SonarQube")
-                    {
-                        sh "mvn org.sonarsource.scanner.maven:sonar-maven-plugin:3.2:sonar"
+		    withSonarQubeEnv("SonarQube"){
+			sh "mvn org.sonarsource.scanner.maven:sonar-maven-plugin:3.2:sonar"						
                     }
             }
          stage('Build') {
             steps {
                 sh "mvn install"
-				}
 			}
+		}
 
         }
-		
-		stage('Upload to Artifactory'){
+	stage('Upload to Artifactory'){
 			steps{
 				rtMavenDeployer (
 					id: 'deployer',
