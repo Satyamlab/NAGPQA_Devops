@@ -14,7 +14,6 @@ pipeline {
                 bat "mvn clean"
             }
         }
-
         stage('Test') {
             steps {
                 bat "mvn test"
@@ -28,14 +27,33 @@ pipeline {
         stage('Sonar analysis') {
             steps {
                  withSonarQubeEnv("SonarQube"){
-					bat "mvn org.sonarsource.scanner.maven:sonar-maven-plugin:3.2:sonar"						
+			bat "mvn org.sonarsource.scanner.maven:sonar-maven-plugin:3.2:sonar"						
                   }
             }
         }
-		stage('Build') {
+	stage('Build') {
             steps {
                 bat "mvn install"
 				}
+	}
+	stage('Upload to Artifactory'){
+			steps{
+				rtMavenDeployer (
+					id: 'deployer',
+					serverId: 'jenkins-integration',
+					releaseRepo: 'jenkins-integration',
+					snapshotRepo: 'snapshot-integration'
+				)
+				rtMavenRun (
+					pom: 'pom.xml',
+					goals: 'clean install',
+					deployerId: 'deployer'
+				)
+				rtPublishBuildInfo (
+					serverId: 'Artifactory-server'
+				)
+			}
+			
 		}
     }
 }
