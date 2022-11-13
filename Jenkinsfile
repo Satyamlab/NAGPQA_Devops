@@ -6,18 +6,18 @@ pipeline {
     stages {
         stage('code checkout') {
             steps {
-                sh "echo hello"
+                code checkout
             }
         }
         stage('code clean') {
             steps {
-                sh "mvn clean"
+                bat "mvn clean"
             }
         }
 
         stage('Test') {
             steps {
-                sh "mvn test"
+                bat "mvn test"
             }
         }
         stage('Deploy') {
@@ -28,13 +28,13 @@ pipeline {
         stage('Sonar analysis') {
             steps {
                  withSonarQubeEnv("SonarQube"){
-					sh "mvn org.sonarsource.scanner.maven:sonar-maven-plugin:3.2:sonar"						
+					bat "mvn org.sonarsource.scanner.maven:sonar-maven-plugin:3.2:sonar"						
                   }
             }
         }
 		stage('Build') {
             steps {
-                sh "mvn install"
+                bat "mvn install"
 				}
 		}
 		stage('Upload to Artifactory'){
@@ -43,14 +43,14 @@ pipeline {
 					id: 'deployer',
 					serverId: 'jenkins-integration',
 					releaseRepo: 'jenkins-integration',
-					snapshotRepo: 'snapshot-integration'
+					snapbatotRepo: 'snapbatot-integration'
 				)
 				rtMavenRun (
 					pom: 'pom.xml',
 					goals: 'clean install',
 					deployerId: 'deployer'
 				)
-				rtPublishBuildInfo (
+				rtPublibatBuildInfo (
 					serverId: 'Artifactory-server'
 				)
 			}
