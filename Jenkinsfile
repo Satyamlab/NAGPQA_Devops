@@ -6,7 +6,7 @@ pipeline {
     stages {
         stage('code checkout') {
             steps {
-                code checkout
+                bat 'code checkout'
             }
         }
         stage('code clean') {
