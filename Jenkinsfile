@@ -40,9 +40,9 @@ pipeline {
 			steps{
 				rtMavenDeployer (
 					id: 'deployer',
-					serverId: 'jenkins-integration',
+					serverId: 'Artifactory-server',
 					releaseRepo: 'jenkins-integration',
-					snapshotRepo: 'snapshot-integration'
+					snapshotRepo: 'jenkins-integration'
 				)
 				rtMavenRun (
 					pom: 'pom.xml',
