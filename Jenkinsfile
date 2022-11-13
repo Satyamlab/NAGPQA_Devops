@@ -32,18 +32,10 @@ pipeline {
             }
         }
 		stage("Quality Gate"){
-			steps{
 			script{
 				timeout(time: 1, unit: 'HOURS'){
-					def qg = waitForQualityGate()
-					if(qg.status != 'OK'){
-						waitForQualityGate abortPipeline: TRUE
+					waitForQualityGate abortPipeline: true
 					}
-					else{
-						waitForQualityGate abortPipeline: FALSE
-					}
-				}
-				}				
 			}
 		}
 		stage('Build') {
